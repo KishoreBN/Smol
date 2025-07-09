@@ -1,0 +1,29 @@
+.workspace-wrapper {
+  color: #ffffff;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100%;
+  gap: 30px;
+  .header {
+    display: flex;
+    flex-direction: row;
+    height: 80px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 20px;
+    > div:first-child {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 28px;
+    }
+    > div:last-child {
+      display: flex;
+      gap: 20px;
+    }
+  }
+  .content {
+    height: 100%;
+    width: 100%;
+  }
+}

@@ -1,0 +1,12 @@
+.smolify-wrapper {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.3fr 0.7fr;
+    gap: 30px;
+    justify-content: space-around;
+
+    .shorten-link-container {
+        justify-items: center;
+    }
+}

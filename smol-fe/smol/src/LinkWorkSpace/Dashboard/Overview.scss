@@ -1,0 +1,43 @@
+.overview {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    max-height: 100%;
+
+    > div:first-child {
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .url-list {
+        max-height: 600px;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        border: 2px solid #343232;
+        padding: 20px;
+        border-radius: 8px;
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            .left, .right {
+                > div:first-child {
+                    font-size: 18px;
+                    font-weight: 500;
+                }
+                > div:nth-child(2) {
+                    color: #9CA3AF;
+                    font-size: 14px;
+                }
+            }
+        }
+        .item:hover {
+            transform: scale(1.05);
+            transition: all 0.2s ease-in-out;
+        }
+    }
+}

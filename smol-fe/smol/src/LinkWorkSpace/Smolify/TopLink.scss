@@ -1,0 +1,21 @@
+.top-link {
+  background-color: #000000;
+  border: 2px solid #343232;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  > div:first-child {
+    font-size: 24px;
+  }
+
+  .copy-icon {
+    visibility: hidden;
+  }
+
+  .row-with-copy:hover .copy-icon {
+    visibility: visible;
+  }
+}

@@ -1,0 +1,19 @@
+.paper-wrapper {
+    padding: 4px;               
+    border-radius: 12px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.paper-wrapper:hover {
+    background: linear-gradient(to right, #800080, #ffb6c1, #ffffff);
+    transition: box-shadow 0.2s ease;
+}
+
+.paper-content {
+    background: #0F0F10;          
+    border-radius: 8px;     
+    height: 100%;
+    width: 100%;
+    border: 1px solid #343232;
+}
