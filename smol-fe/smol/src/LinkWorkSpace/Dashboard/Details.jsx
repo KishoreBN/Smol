@@ -11,11 +11,12 @@ import SmolButton from "../../Utils/Button/SmolButton";
 import { useFormik } from "formik";
 import { shortenUrl } from "../Smolify/SmolifySlice";
 import toast from "react-hot-toast";
+import CachedIcon from '@mui/icons-material/Cached';
 
 /*
 1. Displays and allows editing of URL details and analytics for a shortened link.
 2. Dependencies: React, Formik, dayjs, MUI icons, Smol UI components, react-hot-toast, DashboardSlice functions.
-3. After editing or deleting, triggers a refresh in the parent to update the displayed data.
+3. After editing or deleting, triggers a refresh in the parent to update the displayed <data value="" className=""></data>
 */
 // Displays and allows editing of URL details and analytics.
 const Details = (props) => {
@@ -93,11 +94,12 @@ const Details = (props) => {
   };
 
   return (
-    <div className="details-wrapper">
+    <div className="details-wrapper fade-in">
       <div className="d-header">
         <div>
           <div>{formik?.values?.title}</div>
-          <div>
+          <div className="d-header-actions">
+            <CachedIcon onClick={()=> setRefresh((prev) => !prev)}/>
             <EditTwoToneIcon sx={{ color: "#95e093" }} onClick={onEditClick} />
             <DeleteOutlineTwoToneIcon
               sx={{ color: "#f67373" }}

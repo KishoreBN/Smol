@@ -3,6 +3,7 @@ import "./Header.scss";
 import SmolButton from "../Utils/Button/SmolButton";
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import { useNavigate } from "react-router-dom";
+import Logo from "../assets/Logo.png";
 
 const Header = () => {
     const navigate = useNavigate();

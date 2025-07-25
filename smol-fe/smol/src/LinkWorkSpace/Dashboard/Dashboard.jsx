@@ -27,10 +27,10 @@ const Dashboard = () =>{
 
     return (
         <div className="dashboard-wrapper">
-            <div className="overview-container">
+            <div className="overview-container fade-in">
                 <Overview data={urlList} setSelectedUrl={setSelectedUrl}/>
             </div>
-            <div className="graph-chart">
+            <div className="graph-chart fade-in">
                 {selectedUrl && <Details data={selectedUrl} setRefresh={setRefresh}/>}
             </div>
         </div>

@@ -9,10 +9,7 @@ import com.primeengineer.smol.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -21,7 +18,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterUser registerUser) {
+    public ResponseEntity<String> register(@RequestBody RegisterUser registerUser) {
         Users register = authService.register(registerUser);
         if (register != null) return new ResponseEntity<>(Constants.USER_CREATED, HttpStatus.CREATED);
         return new ResponseEntity<>(Constants.ACCOUNT_EXISTS, HttpStatus.BAD_REQUEST);
@@ -30,6 +27,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody LoginUser loginUser) {
         return new ResponseEntity<>(authService.login(loginUser), HttpStatus.OK);
+    }
+
+    @PostMapping("/verifyUser")
+    public ResponseEntity<String> verifyUser(@RequestParam String registeredEmail) {
+        return new ResponseEntity<>(authService.sendVerificationEmail(registeredEmail), HttpStatus.OK);
     }
 
 }

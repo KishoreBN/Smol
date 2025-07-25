@@ -1,13 +1,17 @@
 package com.primeengineer.smol.util;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 /**
  * Utility class containing helper methods used across the application.
  */
 @Component
 public class Utility {
-
+    @Value("${frontend.url}")
+    private String frontendUrl;
     /**
      * Converts a given number to a Base62-encoded string.
      * Adds an offset based on the minimum length to ensure uniform length of the result.
@@ -25,5 +29,19 @@ public class Utility {
             num = num/62;
         }
         return shortUrl.toString();
+    }
+
+    public String getRandomUUID() {
+        return UUID.randomUUID().toString();
+    }
+
+    public String getPasswordResetMessage(String token) {
+        StringBuilder str = new StringBuilder();
+        str.append(Constants.RESET_MESSAGE_PREFIX)
+                .append(frontendUrl)
+                .append("/token=")
+                .append(token)
+                .append(Constants.RESET_MESSAGE_SUFFIX);
+        return str.toString();
     }
 }

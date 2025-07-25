@@ -4,22 +4,30 @@ import "./TopLink.scss";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 import { userUrls } from "./SmolifySlice";
 import toast from "react-hot-toast";
+import { Skeleton } from "@mui/material";
+import SmolShimmer from "../../Utils/Shimmer/SmolShimmer";
 
 const TopLink = (props) => {
   const { refresh, ...rest } = props;
+  const [loading, setLoading] = useState(true);
   const [topLinks, setTopLinks] = useState([]);
 
   useEffect(() => {
-    userUrls().then((response) => {
-      setTopLinks(
-        response?.data?.map((item) => ({
-          ...item,
-          shortUrl: import.meta.env.VITE_BASE_URL + "/" + item?.shortUrl,
-        }))
-      );
-    }).catch((error) => {
-      toast.error("Something went wrong.");
-    });
+    setLoading(true);
+    userUrls()
+      .then((response) => {
+        setLoading(false);
+        setTopLinks(
+          response?.data?.map((item) => ({
+            ...item,
+            shortUrl: import.meta.env.VITE_BASE_URL + "/" + item?.shortUrl,
+          }))
+        );
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error("Something went wrong.");
+      });
   }, [refresh]);
 
   const columns = [
@@ -45,11 +53,24 @@ const TopLink = (props) => {
     },
     { field: "originalUrl", headerName: "Long URL", flex: 0.4 },
   ];
-  
+
   return (
     <div className="top-link">
       <div>Top Links</div>
-      <SmolSimpleTable rows={topLinks} columns={columns} />
+      {!loading ? (
+        <div className="fade-in">
+          <SmolSimpleTable rows={topLinks} columns={columns} />
+        </div>
+      ) : (
+        <SmolShimmer
+          style={{
+            width: "100%",
+            height: "400px",
+            borderRadius: "8px",
+          }}
+          animation="wave"
+        />
+      )}
     </div>
   );
 };

@@ -10,7 +10,7 @@ const Overview = (props) => {
         {data?.map((item) => {
           return (
             <div
-              className="item"
+              className="item fade-in"
               id={item?.shortUrl}
               onClick={() => setSelectedUrl(item)}
             >

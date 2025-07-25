@@ -1,10 +1,25 @@
 .app-wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    min-width: 100vw;
-    height: 100%;
-    background-color: #0F0F10;
-    color: #ffffff;
-    overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 100vw;
+  height: 100%;
+  background-color: #0f0f10;
+  color: #ffffff;
+  overflow-x: auto;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px); // optional slide
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
