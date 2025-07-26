@@ -6,6 +6,7 @@ import Dashboard from "../../LinkWorkSpace/Dashboard/Dashboard";
 import Smolify from "../../LinkWorkSpace/Smolify/Smolify";
 import SignUp from "../../Login/SignUp";
 import Login from "../../Login/Login";
+import ForgotPassword from "../../Login/ForgotPassword";
 
 const router = createBrowserRouter([
     {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
             }
         ]
     },
+    {
+        path: "/verifyUser",
+        Component: ForgotPassword
+    }
 ])
 
 export default router;

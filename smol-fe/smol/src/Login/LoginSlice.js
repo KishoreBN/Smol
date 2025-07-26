@@ -16,3 +16,10 @@ export const registerUser = async (username, email, password) => {
     });
     return response;
 }
+
+export const verifyUser = async (email) => {
+    const response = await axiosInstance.post("/api/auth/verifyUser", {
+        email : email
+    });
+    return response;
+}

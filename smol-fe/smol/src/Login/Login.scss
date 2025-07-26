@@ -14,4 +14,19 @@
     > div:last-child {
         font-size: 12px;
     }
+
+    .login-footer {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        width: 100%;
+        font-size: 14px;
+        color: #ffffff;
+        cursor: pointer;
+        div {
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
 }

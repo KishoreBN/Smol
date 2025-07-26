@@ -60,6 +60,10 @@ const Login = () => {
     navigate("/signup");
   };
 
+  const handleForgotPassword = () => {
+    navigate("/verifyUser");
+  };
+
   return (
     <div className="login-wrapper">
       <div>Welcome Back to Smol</div>
@@ -83,7 +87,10 @@ const Login = () => {
         style={loginButtonStyle}
         onClick={formik.handleSubmit}
       />
-      <div onClick={handleSignUp}>New User? SignUp</div>
+      <div className="login-footer">
+        <div onClick={handleSignUp}>New User? SignUp</div>
+        <div onClick={handleForgotPassword}>Forgot Password?</div>
+      </div>
     </div>
   );
 };
