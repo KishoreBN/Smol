@@ -2,8 +2,10 @@ package com.primeengineer.smol.service;
 
 import com.primeengineer.smol.dto.JwtResponse;
 import com.primeengineer.smol.dto.LoginUser;
+import com.primeengineer.smol.dto.PasswordResetRequest;
 import com.primeengineer.smol.dto.RegisterUser;
 import com.primeengineer.smol.exception.EmailDoesNotExist;
+import com.primeengineer.smol.exception.InvalidPasswordResetToken;
 import com.primeengineer.smol.exception.UserAlreadyExists;
 import com.primeengineer.smol.exception.UserDoesNotExist;
 import com.primeengineer.smol.model.PasswordResetTokens;
@@ -119,16 +121,35 @@ public class AuthService {
     public String sendVerificationEmail(String registeredEmail) {
         Users user = userRepository.findByEmail(registeredEmail).orElseThrow(()-> new EmailDoesNotExist());
         String token = utility.getRandomUUID();
-        PasswordResetTokens passwordResetToken = PasswordResetTokens
-                .builder()
-                .user(user)
-                .used(false)
-                .token(token)
-                .expireAt(LocalDateTime.now().plusMinutes(10))
-                .build();
-        passwordResetTokenRepository.save(passwordResetToken);
-        String message = utility.getPasswordResetMessage(token);
+        Optional<PasswordResetTokens> userToken = passwordResetTokenRepository.findByUser(user);
+        if (userToken.isPresent()) {
+            PasswordResetTokens passwordResetTokens = userToken.get();
+            passwordResetTokens.setToken(token);
+            passwordResetTokens.setUsed(false);
+            passwordResetTokenRepository.save(passwordResetTokens);
+        } else {
+            PasswordResetTokens passwordResetToken = PasswordResetTokens
+                    .builder()
+                    .user(user)
+                    .used(false)
+                    .token(token)
+                    .expireAt(LocalDateTime.now().plusMinutes(10))
+                    .build();
+            passwordResetTokenRepository.save(passwordResetToken);
+        }
+        String message = utility.getPasswordResetMessage(token, registeredEmail);
         emailService.sendVerificationEmail(registeredEmail, Constants.PASSWORD_RESET, message);
         return Constants.VERIFICATION_EMAIL_SENT;
+    }
+
+    public String passwordReset(PasswordResetRequest passwordResetRequest) {
+        Users user = userRepository.findByEmail(passwordResetRequest.getEmail()).orElseThrow(() -> new EmailDoesNotExist());
+        PasswordResetTokens token = passwordResetTokenRepository.findByUser(user).orElseThrow(() -> new InvalidPasswordResetToken());
+        if (token.getUsed() || !passwordResetRequest.getToken().equals(token.getToken())) throw new InvalidPasswordResetToken();
+        user.setPassword(passwordEncoder.encode(passwordResetRequest.getPassword()));
+        userRepository.save(user);
+        token.setUsed(true);
+        passwordResetTokenRepository.save(token);
+        return "Password successfully reset.";
     }
 }

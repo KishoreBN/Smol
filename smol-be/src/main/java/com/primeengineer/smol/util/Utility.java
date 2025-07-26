@@ -35,12 +35,14 @@ public class Utility {
         return UUID.randomUUID().toString();
     }
 
-    public String getPasswordResetMessage(String token) {
+    public String getPasswordResetMessage(String token, String registeredEmail) {
         StringBuilder str = new StringBuilder();
         str.append(Constants.RESET_MESSAGE_PREFIX)
                 .append(frontendUrl)
-                .append("/token=")
+                .append("/passwordReset?token=")
                 .append(token)
+                .append("?email=")
+                .append(registeredEmail)
                 .append(Constants.RESET_MESSAGE_SUFFIX);
         return str.toString();
     }

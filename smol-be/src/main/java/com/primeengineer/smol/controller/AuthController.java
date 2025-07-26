@@ -2,6 +2,7 @@ package com.primeengineer.smol.controller;
 
 import com.primeengineer.smol.dto.JwtResponse;
 import com.primeengineer.smol.dto.LoginUser;
+import com.primeengineer.smol.dto.PasswordResetRequest;
 import com.primeengineer.smol.dto.RegisterUser;
 import com.primeengineer.smol.model.Users;
 import com.primeengineer.smol.service.AuthService;
@@ -30,8 +31,13 @@ public class AuthController {
     }
 
     @PostMapping("/verifyUser")
-    public ResponseEntity<String> verifyUser(@RequestParam String registeredEmail) {
-        return new ResponseEntity<>(authService.sendVerificationEmail(registeredEmail), HttpStatus.OK);
+    public ResponseEntity<String> verifyUser(@RequestParam PasswordResetRequest registeredEmail) {
+        return new ResponseEntity<>(authService.sendVerificationEmail(registeredEmail.getEmail()), HttpStatus.OK);
+    }
+
+    @RequestMapping("/passwordReset")
+    public ResponseEntity<String> passwordReset(@RequestBody PasswordResetRequest passwordResetRequest) {
+        return new ResponseEntity<>(authService.passwordReset(passwordResetRequest), HttpStatus.OK);
     }
 
 }
