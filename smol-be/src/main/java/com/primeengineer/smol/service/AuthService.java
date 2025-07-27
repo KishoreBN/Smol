@@ -62,6 +62,8 @@ public class AuthService {
     private PasswordResetTokenRepository passwordResetTokenRepository;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private OTPService otpService;
 
     /**
      * Registers a new user with the provided registration details.
@@ -120,7 +122,7 @@ public class AuthService {
     @Transactional
     public String sendVerificationEmail(String registeredEmail) {
         Users user = userRepository.findByEmail(registeredEmail).orElseThrow(()-> new EmailDoesNotExist());
-        String token = utility.getRandomUUID();
+        int token = otpService.getOtp();
         Optional<PasswordResetTokens> userToken = passwordResetTokenRepository.findByUser(user);
         if (userToken.isPresent()) {
             PasswordResetTokens passwordResetTokens = userToken.get();
@@ -142,14 +144,15 @@ public class AuthService {
         return Constants.VERIFICATION_EMAIL_SENT;
     }
 
+    @Transactional
     public String passwordReset(PasswordResetRequest passwordResetRequest) {
         Users user = userRepository.findByEmail(passwordResetRequest.getEmail()).orElseThrow(() -> new EmailDoesNotExist());
         PasswordResetTokens token = passwordResetTokenRepository.findByUser(user).orElseThrow(() -> new InvalidPasswordResetToken());
-        if (token.getUsed() || !passwordResetRequest.getToken().equals(token.getToken())) throw new InvalidPasswordResetToken();
+        if (!otpService.validateOtp(passwordResetRequest.getToken(), token)) throw new InvalidPasswordResetToken();
         user.setPassword(passwordEncoder.encode(passwordResetRequest.getPassword()));
         userRepository.save(user);
         token.setUsed(true);
         passwordResetTokenRepository.save(token);
-        return "Password successfully reset.";
+        return "Password successfully reset";
     }
 }

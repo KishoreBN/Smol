@@ -19,7 +19,7 @@ public class PasswordResetTokens {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "token")
-    private String token;
+    private Integer token;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Users user;

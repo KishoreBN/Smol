@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.security.SecureRandom;
 import java.util.concurrent.Executor;
 
 @Configuration
@@ -32,5 +33,10 @@ public class AppConfiguration {
         threadPoolTaskExecutor.setThreadNamePrefix("Smol-threadpool-");
         threadPoolTaskExecutor.initialize();
         return threadPoolTaskExecutor;
+    }
+
+    @Bean
+    public SecureRandom secureRandom() {
+        return new SecureRandom();
     }
 }

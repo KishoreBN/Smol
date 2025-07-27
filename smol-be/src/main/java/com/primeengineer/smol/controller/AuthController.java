@@ -31,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/verifyUser")
-    public ResponseEntity<String> verifyUser(@RequestParam PasswordResetRequest registeredEmail) {
+    public ResponseEntity<String> verifyUser(@RequestBody PasswordResetRequest registeredEmail) {
         return new ResponseEntity<>(authService.sendVerificationEmail(registeredEmail.getEmail()), HttpStatus.OK);
     }
 
