@@ -23,3 +23,12 @@ export const verifyUser = async (email) => {
     });
     return response;
 }
+
+export const passwordReset = async (email, token, password) => {
+    const response = await axiosInstance.post("/api/auth/passwordReset", {
+        email : email,
+        token : token, 
+        password : password
+    });
+    return response;
+}
