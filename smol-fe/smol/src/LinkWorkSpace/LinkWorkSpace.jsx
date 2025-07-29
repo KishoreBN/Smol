@@ -6,6 +6,7 @@ import "./LinkWorkSpace.scss";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import { Outlet, useNavigate } from "react-router-dom";
 import SmolHeaderTabs from "../Utils/Tabs/SmolHeaderTabs";
+import Logo from "../assets/Logo.png";
 
 const LinkWorkSpace = () => {
   const navigate = useNavigate();
@@ -22,19 +23,23 @@ const LinkWorkSpace = () => {
     },
   ];
 
+  const onLogoutClick = () => {
+    localStorage.removeItem('token');
+    navigate("/");
+  }
+
   return (
     <div className="workspace-wrapper">
       <div className="header">
         <div>
-          <InsertLinkIcon />
-          <div>Smol</div>
+          <img src={Logo} style={{height: "100%"}}/>
         </div>
         <div>
           <SmolHeaderTabs
             options={options}
-            defaultSelection={options[0]?.value}
+            defaultSelection={options[0]}
           />
-          <SmolButton label="Logout" />
+          <SmolButton label="Logout" onClick={onLogoutClick}/>
         </div>
       </div>
       <div className="content">
