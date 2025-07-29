@@ -38,7 +38,7 @@ const TopLink = (props) => {
       flex: 0.3,
       renderCell: (params) => (
         <div
-          style={{ display: "flex", alignItems: "center", gap: "8px" }}
+          style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}
           className="row-with-copy"
         >
           <span>{params.value}</span>

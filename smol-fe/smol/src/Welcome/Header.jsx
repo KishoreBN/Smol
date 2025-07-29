@@ -20,8 +20,9 @@ const Header = () => {
     return (
         <div className="header-wrapper">
             <div className="title">
-                <InsertLinkIcon />
-                <div>Smol</div>
+                {/* <InsertLinkIcon /> */}
+                {/* <div>Smol</div> */}
+                <img src={Logo} style={{width: "120px"}}/>
             </div>
             <SmolButton 
                 label={"Get Started"}

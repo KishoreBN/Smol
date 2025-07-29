@@ -11,7 +11,8 @@ import SmolButton from "../../Utils/Button/SmolButton";
 import { useFormik } from "formik";
 import { shortenUrl } from "../Smolify/SmolifySlice";
 import toast from "react-hot-toast";
-import CachedIcon from '@mui/icons-material/Cached';
+import CachedIcon from "@mui/icons-material/Cached";
+import CopyAllIcon from "@mui/icons-material/CopyAll";
 
 /*
 1. Displays and allows editing of URL details and analytics for a shortened link.
@@ -45,9 +46,9 @@ const Details = (props) => {
   const updateUrlDetails = async (values) => {
     const body = {
       id: values?.id,
-      expirationDate: values?.expirationDate ? dayjs(values?.expirationDate).format(
-        "YYYY-MM-DDTHH:mm:ss"
-      ) : null,
+      expirationDate: values?.expirationDate
+        ? dayjs(values?.expirationDate).format("YYYY-MM-DDTHH:mm:ss")
+        : null,
       maxClick: values?.maxClick,
       longUrl: values?.originalUrl,
     };
@@ -62,14 +63,16 @@ const Details = (props) => {
   useEffect(() => {
     const start = dayjs().subtract(10, "day").format("YYYY-MM-DDTHH:mm:ss"),
       end = dayjs().format("YYYY-MM-DDTHH:mm:ss");
-    urlAnalytics(data?.shortUrl, start, end).then((response) => {
-      const data = response?.data;
-      const xData = data?.map((item) => dayjs(item?.date).format("MMM D"));
-      const yData = data?.map((item) => item?.count);
-      setGraphData({ xData: xData, yData: yData });
-    }).catch((error) =>{
-      toast.error("Something went wrong.");
-    });
+    urlAnalytics(data?.shortUrl, start, end)
+      .then((response) => {
+        const data = response?.data;
+        const xData = data?.map((item) => dayjs(item?.date).format("MMM D"));
+        const yData = data?.map((item) => item?.count);
+        setGraphData({ xData: xData, yData: yData });
+      })
+      .catch((error) => {
+        toast.error("Something went wrong.");
+      });
     return () => {
       setEditMode(false);
     };
@@ -86,10 +89,10 @@ const Details = (props) => {
 
   const onDeleteClick = async () => {
     const response = await toast.promise(deleteUrl(formik?.values?.id), {
-      loading : "Deleting URL.",
-      success : "URL deleted successfully.",
-      error : "Failed to delete URL."
-    })
+      loading: "Deleting URL.",
+      success: "URL deleted successfully.",
+      error: "Failed to delete URL.",
+    });
     setRefresh((prev) => !prev);
   };
 
@@ -99,7 +102,7 @@ const Details = (props) => {
         <div>
           <div>{formik?.values?.title}</div>
           <div className="d-header-actions">
-            <CachedIcon onClick={()=> setRefresh((prev) => !prev)}/>
+            <CachedIcon onClick={() => setRefresh((prev) => !prev)} />
             <EditTwoToneIcon sx={{ color: "#95e093" }} onClick={onEditClick} />
             <DeleteOutlineTwoToneIcon
               sx={{ color: "#f67373" }}
@@ -117,7 +120,13 @@ const Details = (props) => {
           <div className="details">
             <div>
               <div>Short Url</div>
-              <div>{formik?.values?.fullShortUrl}</div>
+              <div style={{display: "flex", gap: "8px"}}>
+                <div>{formik?.values?.fullShortUrl}</div>
+                <CopyAllIcon
+                  onClick={() => navigator.clipboard.writeText(params.value)}
+                  fontSize="small"
+                />
+              </div>
             </div>
             <div>
               <div>Long Url</div>
